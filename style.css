@@ -1,0 +1,148 @@
+
+:root{
+    --bg:#f4f5f7;
+    --panel:#e5d5d5;
+    --panel-2:#cdd1d8;
+    --line:#d5d9e0;
+    --text:#1b2430;
+    --accent:#467aeb;
+    --accent-text:#ffffff;
+    --map-bg:#eef1f5;
+    --stage:#cbd3df;
+    --incart:#16a34a;
+}
+
+
+*{box-sizing:border-box}
+
+
+body{
+    margin:0;
+    font-family:system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+header{
+    padding:12px 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px 24px;
+    align-items:center;
+}
+h1{
+    margin:0;
+    font-size:1.4rem;
+}
+
+
+h2{
+    margin:0 0 8px;
+    font-size:1.05rem;
+}
+
+button{
+    font:inherit;
+    cursor:pointer;
+}
+
+ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+
+#legend,#state-legend{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    font-size:.85rem;
+}
+
+
+#legend i,.sw{
+    display:inline-block;
+    width:12px;
+    height:12px;
+    border-radius:3px;
+    margin-right:6px;
+    vertical-align:-1px;
+}
+
+
+main{
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:16px;
+    padding:0 20px 20px;
+}
+
+
+
+#controls{
+    display:flex;
+    gap:4px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+    width:fit-content;
+    max-width:100%;
+    padding:6px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+}
+
+
+#controls button{
+    width:40px;
+    height:40px;
+    border:0;
+    border-radius:8px;
+    background:transparent;
+    color:var(--text);
+    font-size:1.15rem;
+}
+
+#controls button:nth-child(2),
+#controls button:nth-child(6){
+    margin-right:10px;
+}
+
+
+#controls button:hover{
+    background:var(--panel-2);
+}
+
+#viewport{
+    height:70vh;
+    overflow:hidden;
+    position:relative;
+    background:var(--map-bg);
+    border:1px solid var(--line);
+    border-radius:12px;
+}
+
+#map{
+    position:absolute;
+    left:0;
+    top:0;
+    width:1000px;
+    height:920px;
+    transform-origin:0 0;
+}
+
+
+.stage{
+    position:absolute;
+    left:300px;
+    top:40px;
+    width:400px;
+    height:60px;
+    background:var(--stage);
+    border-radius:8px 8px 40px 40px;
+    display:grid;
+    place-items:center;
+    letter-spacing:.4em;
+}
+
