@@ -146,3 +146,62 @@ main{
     letter-spacing:.4em;
 }
 
+aside{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+aside section{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:14px;
+}
+
+#detail-body{
+    line-height:1.5;
+    min-height:5.5em;
+}
+
+#add-btn{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border:0;
+    border-radius:8px;
+    background:var(--accent);
+    color:var(--accent-text);
+    font-weight:700;
+}
+
+
+#add-btn:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+}
+
+#cart-list{
+    margin:0 0 10px;
+    max-height:40vh;
+    overflow:auto;
+}
+
+#cart-list li{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+    padding:6px 0;
+    border-bottom:1px solid var(--line);
+}
+
+#cart-list li button{
+    border:0;
+    border-radius:6px;
+    background:var(--panel-2);
+    color:var(--text);
+    width:30px;
+    height:30px;
+}
+
