@@ -23,7 +23,7 @@ function buildSeats() {
         SEATS[id] = {
           id, zone: z, row, num: c + 1, price: z.price,
           x: z.x + c * pitch, y: z.y + r * pitch,
-          unavailable: (r * 7 + c * 13 + zi * 5) % 9 === 0   // fixed "sold" pattern
+          unavailable: (r * 7 + c * 13 + zi * 5) % 9 === 0 
         };
       }
     }
@@ -75,7 +75,43 @@ function renderMap() {
 }
 
 
+const addBtn = document.getElementById("add-btn");
+
+function inspect(id) {
+  state.inspected = id;
+  updateSeats();
+  showDetails();
+}
+
+function showDetails() {
+  const body = document.getElementById("detail-body");
+  const id = state.inspected;
+  if (!id) {
+    body.textContent = "Select a seat on the map.";
+    addBtn.disabled = true;
+    return;
+  }
+  const s = SEATS[id], st = statusOf(id);
+  const labels = {
+    available: "Available",
+    inspected: "Available",
+    "in-cart": "In your cart",
+    unavailable: "Sold"
+  };
+  body.innerHTML = `<b>${s.zone.label}</b><br>
+    Row ${s.row}, seat ${s.num}<br>
+    Price: <b>$${s.price}</b><br>
+    Status: ${labels[st]}`;
+  addBtn.disabled = s.unavailable || state.cart.includes(id);
+}
+
+document.getElementById("map").addEventListener("click", e => {
+  const b = e.target.closest(".seat");
+  if (b) inspect(b.dataset.id);
+});
+
 buildSeats();
 renderMap();
+showDetails();
 
 document.getElementById("map").style.transform = "scale(0.6)";
