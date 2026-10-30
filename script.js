@@ -83,31 +83,61 @@ function inspect(id) {
   showDetails();
 }
 
+
+
 function showDetails() {
-  const body = document.getElementById("detail-body");
-  const id = state.inspected;
-  if (!id) {
+  var body = document.getElementById("detail-body");
+  var id = state.inspected;
+
+  if (id === null) {
     body.textContent = "Select a seat on the map.";
     addBtn.disabled = true;
     return;
   }
-  const s = SEATS[id], st = statusOf(id);
-  const labels = {
-    available: "Available",
-    inspected: "Available",
-    "in-cart": "In your cart",
-    unavailable: "Sold"
-  };
-  body.innerHTML = `<b>${s.zone.label}</b><br>
-    Row ${s.row}, seat ${s.num}<br>
-    Price: <b>$${s.price}</b><br>
-    Status: ${labels[st]}`;
-  addBtn.disabled = s.unavailable || state.cart.includes(id);
+
+  var seat = SEATS[id];
+  var status = statusOf(id);
+
+
+  var statusText = "Available";
+  if (status === "in-cart") {
+    statusText = "In your cart";
+  }
+  if (status === "unavailable") {
+    statusText = "Sold";
+  }
+
+  var html = "";
+  html = html + '<div class="detail-zone">';
+  html = html + '<i style="background:' + seat.zone.color + '"></i>';
+  html = html + seat.zone.label;
+  html = html + '</div>';
+
+  html = html + '<div class="detail-row"><span>Row</span><b>' + seat.row + '</b></div>';
+  html = html + '<div class="detail-row"><span>Seat</span><b>' + seat.num + '</b></div>';
+  html = html + '<div class="detail-row"><span>Price</span><span class="detail-price">$' + seat.price + '</span></div>';
+  html = html + '<div class="detail-row"><span>Status</span><span class="badge ' + status + '">' + statusText + '</span></div>';
+
+  body.innerHTML = html;
+
+  if (seat.unavailable === true || state.cart.includes(id)) {
+    addBtn.disabled = true;
+  } else {
+    addBtn.disabled = false;
+  }
 }
 
 document.getElementById("map").addEventListener("click", e => {
   const b = e.target.closest(".seat");
   if (b) inspect(b.dataset.id);
+});
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape" && state.inspected !== null) {
+    state.inspected = null;
+    updateSeats();
+    showDetails();
+  }
 });
 
 buildSeats();

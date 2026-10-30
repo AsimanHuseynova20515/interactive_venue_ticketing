@@ -163,7 +163,7 @@ aside section{
 
 #detail-body{
     line-height:1.5;
-    min-height:5.5em;
+    min-height:11em;
 }
 
 #add-btn{
@@ -363,4 +363,51 @@ aside section{
 
 .s-unavailable{
     background:#b8bfca;opacity:.6
+}
+
+
+.detail-zone{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:700;
+    font-size:1.05rem;
+    margin-bottom:6px;
+}
+
+.detail-zone i{
+    display:inline-block;
+    width:12px;
+    height:12px;
+    border-radius:3px;
+}
+
+.detail-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:5px 0;
+    border-bottom:1px solid var(--line);
+}
+
+.detail-price{
+    font-size:1.3rem;
+    font-weight:800;
+}
+
+.badge{
+    padding:2px 10px;
+    border-radius:999px;
+    font-size:.8rem;
+    font-weight:600;
+    background:var(--panel-2);
+}
+
+.badge.in-cart{
+    background:var(--incart);
+    color:#fff
+}
+
+.badge.unavailable{
+    background:#b8bfca
 }
