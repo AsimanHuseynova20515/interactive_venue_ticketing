@@ -140,8 +140,81 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
+
+
+var view = { x: 0, y: 0, scale: 1 };
+var viewport = document.getElementById("viewport");
+var mapEl = document.getElementById("map");
+
+var MIN_SCALE = 0.3;
+var MAX_SCALE = 3;
+
+
+function applyView() {
+  mapEl.style.transform =
+    "translate(" + view.x + "px," + view.y + "px) scale(" + view.scale + ")";
+}
+
+
+
+function zoomBy(factor) {
+  var centerX = viewport.clientWidth / 2;
+  var centerY = viewport.clientHeight / 2;
+
+  var newScale = view.scale * factor;
+  if (newScale < MIN_SCALE) {
+    newScale = MIN_SCALE;
+  }
+  if (newScale > MAX_SCALE) {
+    newScale = MAX_SCALE;
+  }
+
+  var ratio = newScale / view.scale;
+  view.x = centerX - (centerX - view.x) * ratio;
+  view.y = centerY - (centerY - view.y) * ratio;
+  view.scale = newScale;
+
+  applyView();
+}
+
+
+
+function resetView() {
+  var width = viewport.clientWidth;
+  var height = viewport.clientHeight;
+
+  view.scale = Math.min(width / VENUE.width, height / VENUE.height);
+  view.x = (width - VENUE.width * view.scale) / 2;
+  view.y = (height - VENUE.height * view.scale) / 2;
+
+  applyView();
+}
+
+
+
+function initView() {
+  document.getElementById("controls").addEventListener("click", function (event) {
+    var button = event.target.closest("button");
+    if (button === null) {
+      return;
+    }
+    var action = button.dataset.act;
+
+    if (action === "in") {
+      zoomBy(1.25);
+    }
+    if (action === "out") {
+      zoomBy(1 / 1.25);
+    }
+    if (action === "reset") {
+      resetView();
+    }
+  });
+
+  resetView();
+}
+
 buildSeats();
 renderMap();
 showDetails();
-
-document.getElementById("map").style.transform = "scale(0.6)";
+initView();

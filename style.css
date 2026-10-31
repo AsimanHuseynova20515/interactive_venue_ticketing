@@ -411,3 +411,13 @@ aside section{
 .badge.unavailable{
     background:#b8bfca
 }
+
+
+#controls button[data-act="reset"]{
+    background:var(--accent);
+    color:var(--accent-text);
+}
+
+#controls button[data-act="reset"]:hover{
+    filter:brightness(1.1);
+}
