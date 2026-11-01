@@ -148,9 +148,32 @@ var mapEl = document.getElementById("map");
 
 var MIN_SCALE = 0.3;
 var MAX_SCALE = 3;
-
+var STEP = 60;
 
 function applyView() {
+  var width = viewport.clientWidth;
+  var height = viewport.clientHeight;
+  var keep = 100; 
+
+  var mapWidth = VENUE.width * view.scale;
+  var mapHeight = VENUE.height * view.scale;
+
+
+  if (view.x > width - keep) {
+    view.x = width - keep;
+  }
+  if (view.x < keep - mapWidth) {
+    view.x = keep - mapWidth;
+  }
+
+
+  if (view.y > height - keep) {
+    view.y = height - keep;
+  }
+  if (view.y < keep - mapHeight) {
+    view.y = keep - mapHeight;
+  }
+
   mapEl.style.transform =
     "translate(" + view.x + "px," + view.y + "px) scale(" + view.scale + ")";
 }
@@ -206,11 +229,28 @@ function initView() {
     if (action === "out") {
       zoomBy(1 / 1.25);
     }
+    if (action === "up") {
+      view.y = view.y + STEP;
+      applyView();
+    }
+    if (action === "down") {
+      view.y = view.y - STEP;
+      applyView();
+    }
+    if (action === "left") {
+      view.x = view.x + STEP;
+      applyView();
+    }
+    if (action === "right") {
+      view.x = view.x - STEP;
+      applyView();
+    }
     if (action === "reset") {
       resetView();
     }
   });
 
+  window.addEventListener("resize", applyView);
   resetView();
 }
 
