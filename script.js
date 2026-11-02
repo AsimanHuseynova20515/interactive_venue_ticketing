@@ -254,7 +254,91 @@ function initView() {
   resetView();
 }
 
+
+function addToCart() {
+  var id = state.inspected;
+
+  if (id === null) {
+    return;
+  }
+  if (SEATS[id].unavailable === true) {
+    return;
+  }
+  if (state.cart.includes(id)) {
+    return;  
+  }
+
+  state.cart.push(id);
+  refresh();
+}
+
+
+function removeFromCart(id) {
+  var newCart = [];
+
+  for (var i = 0; i < state.cart.length; i++) {
+    if (state.cart[i] != id) {
+      newCart.push(state.cart[i]);
+    }
+  }
+
+  state.cart = newCart;
+  refresh();
+}
+
+
+function makeCartRow(id) {
+  var seat = SEATS[id];
+
+  var row = document.createElement("li");
+
+  var text = document.createElement("span");
+  text.textContent = seat.zone.label + " " + seat.row + seat.num + " - $" + seat.price;
+
+  var button = document.createElement("button");
+  button.textContent = "✕";
+  button.onclick = function () {
+    removeFromCart(id);
+  };
+
+  row.appendChild(text);
+  row.appendChild(button);
+  return row;
+}
+
+
+function renderCart() {
+  var list = document.getElementById("cart-list");
+  var totalEl = document.getElementById("total");
+  var total = 0;
+
+  list.innerHTML = "";
+
+  if (state.cart.length == 0) {
+    list.innerHTML = "<li>Your cart is empty</li>";
+  }
+
+  for (var i = 0; i < state.cart.length; i++) {
+    var id = state.cart[i];
+    total = total + SEATS[id].price;
+    list.appendChild(makeCartRow(id));
+  }
+
+  totalEl.textContent = total;
+}
+
+
+function refresh() {
+  updateSeats();
+  showDetails();
+  renderCart();
+}
+
+addBtn.onclick = addToCart;
+
+
 buildSeats();
 renderMap();
 showDetails();
+renderCart();
 initView();

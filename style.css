@@ -421,3 +421,16 @@ aside section{
 #controls button[data-act="reset"]:hover{
     filter:brightness(1.1);
 }
+
+
+#cart-list li:last-child{
+    border-bottom:0;
+}
+
+#cart-list li button:hover{
+    background:#b8bfca;
+}
+
+#cart p{
+    margin:0;
+}
