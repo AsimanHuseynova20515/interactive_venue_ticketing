@@ -269,6 +269,7 @@ function addToCart() {
   }
 
   state.cart.push(id);
+  saveCart();
   refresh();
 }
 
@@ -283,6 +284,7 @@ function removeFromCart(id) {
   }
 
   state.cart = newCart;
+  saveCart();
   refresh();
 }
 
@@ -337,7 +339,51 @@ function refresh() {
 addBtn.onclick = addToCart;
 
 
+var CART_KEY = "asiman-cart-v1";
+
+
+function saveCart() {
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify(state.cart));
+  } catch (error) {
+  }
+}
+
+
+
+function loadCart() {
+  try {
+    var saved = JSON.parse(localStorage.getItem(CART_KEY));
+
+    if (Array.isArray(saved) == false) {
+      return;
+    }
+
+    var cleanCart = [];
+    for (var i = 0; i < saved.length; i++) {
+      var id = saved[i];
+
+      if (SEATS[id] == undefined) {
+        continue;
+      }
+      if (SEATS[id].unavailable == true) {
+        continue;
+      }
+      if (cleanCart.includes(id)) {
+        continue; 
+      }
+      cleanCart.push(id);
+    }
+
+    state.cart = cleanCart;
+  } catch (error) {
+    state.cart = [];
+  }
+}
+
+
 buildSeats();
+loadCart();
 renderMap();
 showDetails();
 renderCart();
