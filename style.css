@@ -260,7 +260,7 @@ aside section{
 .nav-link:hover,
 .nav-link.active {
     background: #eef1f5;
-    color: var(--main-color);
+    color: var(--accent);
 }
 
 
@@ -307,6 +307,23 @@ aside section{
         flex-direction: column;
         align-items: flex-start;
     }
+
+        main{
+        grid-template-columns:1fr;
+        padding:0 12px 16px;
+    }
+
+    #viewport{
+        height:60vh;
+    }
+
+    #detail-body{
+        min-height:0;
+    }
+
+    #cart-list{
+        max-height:30vh;
+    }
 }
 
 @media (max-width: 480px) {
@@ -318,6 +335,30 @@ aside section{
     .nav-link {
         padding: 8px 10px;
         font-size: 0.82rem;
+    }
+
+        main{
+        margin-top:12px;
+    }
+
+    #viewport{
+        height:50vh;
+    }
+
+    #controls{
+        width:100%;
+        justify-content:center;
+    }
+
+    #controls button{
+        width:44px;
+        height:44px;
+    }
+
+    .header-info #legend,
+    .header-info #state-legend{
+        gap:8px;
+        font-size:.78rem;
     }
 }
 
