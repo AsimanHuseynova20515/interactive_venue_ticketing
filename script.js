@@ -327,6 +327,11 @@ function renderCart() {
   }
 
   totalEl.textContent = total;
+    if (state.cart.length == 0) {
+    clearBtn.disabled = true;
+  } else {
+    clearBtn.disabled = false;
+  }
 }
 
 
@@ -337,6 +342,20 @@ function refresh() {
 }
 
 addBtn.onclick = addToCart;
+
+var clearBtn = document.getElementById("clear-btn");
+
+function clearCart() {
+  if (state.cart.length == 0) {
+    return;
+  }
+
+  state.cart = [];
+  saveCart();
+  refresh();
+}
+
+clearBtn.onclick = clearCart;
 
 
 var CART_KEY = "asiman-cart-v1";

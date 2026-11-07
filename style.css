@@ -475,3 +475,32 @@ aside section{
 #cart p{
     margin:0;
 }
+
+#clear-btn{
+    width:100%;
+    margin-top:12px;
+    padding:10px;
+    border:1px solid #c0392b;
+    border-radius:8px;
+    background:transparent;
+    color:#c0392b;
+    font-weight:600;
+}
+
+#clear-btn:hover{
+    background:#c0392b;
+    color:#fff;
+}
+
+#clear-btn:disabled{
+    border-color:var(--line);
+    color:#8a94a3;
+    background:transparent;
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+button:focus-visible{
+    outline:3px solid var(--accent);
+    outline-offset:2px;
+}
