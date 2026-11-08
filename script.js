@@ -180,9 +180,13 @@ function applyView() {
 
 
 
-function zoomBy(factor) {
-  var centerX = viewport.clientWidth / 2;
-  var centerY = viewport.clientHeight / 2;
+function zoomBy(factor, centerX, centerY) {
+  if (centerX === undefined) {
+    centerX = viewport.clientWidth / 2;
+  }
+  if (centerY === undefined) {
+    centerY = viewport.clientHeight / 2;
+  }
 
   var newScale = view.scale * factor;
   if (newScale < MIN_SCALE) {
@@ -252,6 +256,73 @@ function initView() {
 
   window.addEventListener("resize", applyView);
   resetView();
+}
+
+
+var dragging = false;
+var dragMoved = false;
+var dragStartX = 0;
+var dragStartY = 0;
+var viewStartX = 0;
+var viewStartY = 0;
+
+function initMouse() {
+
+  viewport.addEventListener("wheel", function (event) {
+    event.preventDefault();
+
+    var box = viewport.getBoundingClientRect();
+    var pointerX = event.clientX - box.left;
+    var pointerY = event.clientY - box.top;
+
+    if (event.deltaY < 0) {
+      zoomBy(1.1, pointerX, pointerY);
+    } else {
+      zoomBy(1 / 1.1, pointerX, pointerY);
+    }
+  }, { passive: false });
+
+  viewport.addEventListener("pointerdown", function (event) {
+    dragging = true;
+    dragMoved = false;
+    dragStartX = event.clientX;
+    dragStartY = event.clientY;
+    viewStartX = view.x;
+    viewStartY = view.y;
+  });
+
+  window.addEventListener("pointermove", function (event) {
+    if (dragging == false) {
+      return;
+    }
+
+    var moveX = event.clientX - dragStartX;
+    var moveY = event.clientY - dragStartY;
+
+    if (Math.abs(moveX) + Math.abs(moveY) > 5) {
+      dragMoved = true;
+      viewport.classList.add("dragging");
+    }
+
+    if (dragMoved == true) {
+      view.x = viewStartX + moveX;
+      view.y = viewStartY + moveY;
+      applyView();
+    }
+  });
+
+  window.addEventListener("pointerup", function () {
+    dragging = false;
+    viewport.classList.remove("dragging");
+  });
+
+
+  mapEl.addEventListener("click", function (event) {
+    if (dragMoved == true) {
+      event.stopPropagation();
+      dragMoved = false;
+    }
+  }, true);
 }
 
 
@@ -407,3 +478,4 @@ renderMap();
 showDetails();
 renderCart();
 initView();
+initMouse();
